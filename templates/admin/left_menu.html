@@ -1,0 +1,44 @@
+<ul class="nav" id="side-menu">
+	<li>
+		<a class="active" href="/admin/"><i class="fa fa-home fa-fw"></i> INICIO </a>
+	</li>                      
+
+{% if '/admin/auth' in request.path or '/admin/sistema' in request.path  %}
+	{% if perms.auth.add_user or perms.auth.change_user or perms.auth.delete_user %}
+	<li>
+		<a href="#">USUARIOS<span class="fa arrow"></span></a>
+		<ul class="nav nav-second-level">
+			{% if perms.auth.add_user %}
+			<li>
+				<a href="/admin/auth/user/add/">AGREGAR</a>
+			</li>
+			{% endif %}
+			
+			<li>
+				<a href="/admin/auth/user/">LISTAR</a>
+			</li>
+		</ul>
+		<!-- /.nav-second-level -->
+	</li>
+	{% endif %}
+
+	{% if perms.auth.add_group or perms.auth.change_group or perms.auth.delete_group %}
+	<li>
+		<a href="#">GRUPOS<span class="fa arrow"></span></a>
+		<ul class="nav nav-second-level">
+			{% if perms.auth.add_group %}
+			<li>
+				<a href="/admin/auth/group/add/">AGREGAR</a>
+			</li>
+			{% endif %}
+	
+			<li>
+				<a href="/admin/auth/group/">LISTAR</a>
+			</li>
+		</ul>
+		<!-- /.nav-second-level -->
+	</li>
+	{% endif %}
+
+{% endif %}
+</ul>

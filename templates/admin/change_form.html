@@ -91,6 +91,7 @@
 
             {% if request.path != "/admin/auth/user" %}
                 $(".field-is_staff").hide();
+                $(".field-is_active").hide();
             {% endif %}
 
             });

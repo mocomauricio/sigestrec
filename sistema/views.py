@@ -24,6 +24,10 @@ class UsuarioCreateView(CreateView):
 
 @login_required
 def anular_usuario(request, pk):
+	"""
+	View que implementa un borrado logico de usuario seteando is_active a False y restringe eliminar cuando is_superuser == True, 
+	sobreescribiendo la vista propia del admin
+	"""
 	context = RequestContext(request)
 	usuario = User.objects.get(pk=pk)
 
@@ -39,6 +43,9 @@ def anular_usuario(request, pk):
 	return render_to_response('admin/confirm.html', {'mensaje': mensaje}, context)
 
 class UsuarioListView(ListView):
+	"""
+	View lista de usuarios, sobreescribiendo la vista propia del admin
+	"""
 	model = User
 	template_name = "usuario_list.html"
 	paginate_by = 30
@@ -75,6 +82,9 @@ class UsuarioListView(ListView):
 		return context
 
 class GrupoListView(ListView):
+	"""
+	View lista de grupos, sobreescribiendo la vista propia del admin
+	"""
 	model = Group
 	template_name = "grupo_list.html"
 	paginate_by = 30

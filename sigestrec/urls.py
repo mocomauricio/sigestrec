@@ -6,7 +6,7 @@ urlpatterns = [
     # url(r'^$', 'sigestrec.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-
+    url(r'^admin/recursos/', include('recursos.urls')),
     url(r'^admin/auth/', include('sistema.urls')),
     url(r'^admin/sistema/', include('sistema.urls')),
 	url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

@@ -22,3 +22,9 @@ rol.save()
 
 rol = Group(name="Funcionario")
 rol.save()
+
+user=User.objects.create_user('admin', password='admin')
+user.first_name = "Administrador"
+user.is_superuser=True
+user.is_staff=True
+user.save()

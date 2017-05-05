@@ -5,6 +5,9 @@ from recursos.models import *
 
 
 class DetalleDelRecursoForm(forms.ModelForm):
+    """
+    Formulario de detalle de recursos con widgets personalizados
+    """
     class Meta:
         model = DetalleDelRecurso
         fields = ('__all__')
@@ -13,6 +16,9 @@ class DetalleDelRecursoForm(forms.ModelForm):
         }
 
 class TipoDeRecursoForm(forms.ModelForm):
+    """
+    Formulario de tipo de recursos con widgets personalizados
+    """
     class Meta:
         model = TipoDeRecurso
         fields = ('__all__')

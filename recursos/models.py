@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Caracteristica(models.Model):
+    """ 
+    Modelo que implementa caracteristicas de la plantilla de los tipos de recursos
+    """
     descripcion = models.CharField(max_length=100)
 
     def __unicode__(self):

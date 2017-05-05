@@ -23,6 +23,9 @@ rol.save()
 rol = Group(name="Funcionario")
 rol.save()
 
+rol = Group(name="Encargado de recursos")
+rol.save()
+
 user=User.objects.create_user('admin', password='admin')
 user.first_name = "Administrador"
 user.is_superuser=True

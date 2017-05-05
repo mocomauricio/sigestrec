@@ -1,14 +1,25 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
+class Caracteristica(models.Model):
+    descripcion = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return unicode(self.descripcion)
+
+
 class TipoDeRecurso(models.Model):
     """ 
     Modelo que implementa tipos de recursos para la clasificacion en recursos
     """
     nombre = models.CharField(max_length=100)
+    encargado = models.ForeignKey(User, null=True, blank=False, verbose_name="Encargado del recurso")
+    caracteristicas = models.ManyToManyField(Caracteristica)
 
     def __unicode__(self):
         return unicode(self.nombre)
+
 
 
 class Recurso(models.Model):
@@ -22,3 +33,8 @@ class Recurso(models.Model):
 
     def __unicode__(self):
         return unicode(self.nombre)
+
+class DetalleDelRecurso(models.Model):
+    recurso = models.ForeignKey(Recurso)
+    caracteristica = models.ForeignKey(Caracteristica)
+    valor = models.CharField(max_length=100, null=True, blank=True)

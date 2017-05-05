@@ -6,37 +6,13 @@
 {% if '/admin/auth' in request.path or '/admin/sistema' in request.path  %}
 	{% if perms.auth.add_user or perms.auth.change_user or perms.auth.delete_user %}
 	<li>
-		<a href="#">USUARIOS<span class="fa arrow"></span></a>
-		<ul class="nav nav-second-level">
-			{% if perms.auth.add_user %}
-			<li>
-				<a href="/admin/auth/user/add/">AGREGAR</a>
-			</li>
-			{% endif %}
-			
-			<li>
-				<a href="/admin/auth/user/">LISTAR</a>
-			</li>
-		</ul>
-		<!-- /.nav-second-level -->
+		<a href="/admin/auth/user/">USUARIOS</span></a>
 	</li>
 	{% endif %}
 
 	{% if perms.auth.add_group or perms.auth.change_group or perms.auth.delete_group %}
 	<li>
-		<a href="#">ROLES<span class="fa arrow"></span></a>
-		<ul class="nav nav-second-level">
-			{% if perms.auth.add_group %}
-			<li>
-				<a href="/admin/auth/group/add/">AGREGAR</a>
-			</li>
-			{% endif %}
-	
-			<li>
-				<a href="/admin/auth/group/">LISTAR</a>
-			</li>
-		</ul>
-		<!-- /.nav-second-level -->
+		<a href="/admin/auth/group/">ROLES</span></a>
 	</li>
 	{% endif %}
 
@@ -45,41 +21,15 @@
 {% elif '/admin/recursos' in request.path %}
 	{% if perms.recursos.add_tipoderecurso or perms.recursos.change_tipoderecurso or perms.recursos.delete_tipoderecurso %}
 	<li>
-		<a href="#">TIPO DE RECURSO<span class="fa arrow"></span></a>
-		<ul class="nav nav-second-level">
-			{% if perms.recursos.add_tipoderecurso %}
-			<li>
-				<a href="/admin/recursos/tipoderecurso/add/">AGREGAR</a>
-			</li>
-			{% endif %}
-			
-			<li>
-				<a href="/admin/recursos/tipoderecurso/">LISTAR</a>
-			</li>
-		</ul>
-		<!-- /.nav-second-level -->
+		<a href="/admin/recursos/tipoderecurso/">TIPOS DE RECURSO</span></a>
 	</li>
 	{% endif %}
 
 	{% if perms.recursos.add_recurso or perms.recursos.change_recurso or perms.recursos.delete_recurso %}
 	<li>
-		<a href="#">RECURSO<span class="fa arrow"></span></a>
-		<ul class="nav nav-second-level">
-			{% if perms.recursos.add_recurso %}
-			<li>
-				<a href="/admin/recursos/recurso/add/">AGREGAR</a>
-			</li>
-			{% endif %}
-	
-			<li>
-				<a href="/admin/recursos/recurso/">LISTAR</a>
-			</li>
-		</ul>
-		<!-- /.nav-second-level -->
+		<a href="/admin/recursos/recurso/">RECURSOS</span></a>
 	</li>
 	{% endif %}
 
 {% endif %}
-
-
 </ul>

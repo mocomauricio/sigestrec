@@ -1,0 +1,248 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls admin_static admin_modify %}
+
+{% block extrahead %}{{ block.super }}
+<script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+{{ media }}
+{% endblock %}
+
+{% block extrajs %}
+    <script type="text/javascript" src="{% static 'js/autoNumeric.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/decimales.js' %}"></script>
+    <script type="text/javascript">
+        jQuery(function($) {
+            $('.auto').autoNumeric('init');
+        });
+    </script>
+{% endblock %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />{% endblock %}
+
+{% block coltype %}colM{% endblock %}
+
+{% block bodyclass %}{{ block.super }} app-{{ opts.app_label }} model-{{ opts.model_name }} change-form{% endblock %}
+
+{% if not is_popup %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
+&rsaquo; {% if has_change_permission %}<a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %}
+&rsaquo; {% if add %}{% trans 'Add' %} {{ opts.verbose_name }}{% else %}{{ original|truncatewords:"18" }}{% endif %}
+</div>
+{% endblock %}
+{% endif %}
+
+{% block content %}<div id="content-main">
+{% block object-tools %}
+{% if change %}{% if not is_popup %}
+  <ul class="object-tools">
+    {% block object-tools-items %}
+    <li>
+        {% url opts|admin_urlname:'history' original.pk|admin_urlquote as history_url %}
+        <a href="{% add_preserved_filters history_url %}" class="historylink">{% trans "History" %}</a>
+    </li>
+    {% if has_absolute_url %}<li><a href="{{ absolute_url }}" class="viewsitelink">{% trans "View on site" %}</a></li>{% endif %}
+    {% endblock %}
+  </ul>
+{% endif %}{% endif %}
+{% endblock %}
+<form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.model_name }}_form" novalidate>{% csrf_token %}{% block form_top %}{% endblock %}
+<div>
+{% if is_popup %}<input type="hidden" name="{{ is_popup_var }}" value="1" />{% endif %}
+{% if to_field %}<input type="hidden" name="{{ to_field_var }}" value="{{ to_field }}" />{% endif %}
+{% if save_on_top %}{% block submit_buttons_top %}{% submit_row %}{% endblock %}{% endif %}
+{% if errors %}
+    <p class="errornote">
+    {% if errors|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+    </p>
+    {{ adminform.form.non_field_errors }}
+{% endif %}
+
+{% block field_sets %}
+{% for fieldset in adminform %}
+  {% include "admin/includes/fieldset.html" %}
+{% endfor %}
+{% endblock %}
+
+{% block after_field_sets %}{% endblock %}
+
+{% block inline_field_sets %}
+{% for inline_admin_formset in inline_admin_formsets %}
+    {% include inline_admin_formset.opts.template %}
+{% endfor %}
+{% endblock %}
+
+{% block after_related_objects %}{% endblock %}
+
+{% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
+
+{% block admin_change_form_document_ready %}
+    <script type="text/javascript">
+
+                    function addRow(options_prefix){
+                        var addButton = $('.add-row');
+                        var totalForms = $("#id_" + options_prefix + "-TOTAL_FORMS").prop("autocomplete", "off");
+                        var nextIndex = parseInt(totalForms.val(), 10);
+                        var maxForms = $("#id_" + options_prefix + "-MAX_NUM_FORMS").prop("autocomplete", "off");
+                        var updateElementIndex = function(el, prefix, ndx) {
+                            var id_regex = new RegExp("(" + prefix + "-(\\d+|__prefix__))");
+                            var replacement = prefix + "-" + ndx;
+                            if ($(el).prop("for")) {
+                                $(el).prop("for", $(el).prop("for").replace(id_regex, replacement));
+                            }
+                            if (el.id) {
+                                el.id = el.id.replace(id_regex, replacement);
+                            }
+                            if (el.name) {
+                                el.name = el.name.replace(id_regex, replacement);
+                            }
+                        };
+
+                        var template = $("#" + options_prefix + "-empty");
+                        var row = template.clone(true);
+                        row.removeClass("empty-row empty-form")
+                            .addClass("dynamic-"+options_prefix)
+                            .attr("id", options_prefix + "-" + nextIndex);
+
+                        row.find("*").each(function() {
+                            updateElementIndex(this, options_prefix, totalForms.val());
+                        });
+                        // Insert the new form when it has been fully edited
+                        row.insertBefore($(template));
+                        // Update number of total forms
+                        $(totalForms).val(parseInt(totalForms.val(), 10) + 1);
+                        nextIndex += 1;
+                    }
+
+                    function deleteRow(options_prefix, index) {
+                        var addButton = $('.add-row');
+                        var totalForms = $("#id_" + options_prefix + "-TOTAL_FORMS").prop("autocomplete", "off");
+                        var nextIndex = parseInt(totalForms.val(), 10);
+                        var maxForms = $("#id_" + options_prefix + "-MAX_NUM_FORMS").prop("autocomplete", "off");
+                        var updateElementIndex = function(el, prefix, ndx) {
+                            var id_regex = new RegExp("(" + prefix + "-(\\d+|__prefix__))");
+                            var replacement = prefix + "-" + ndx;
+                            if ($(el).prop("for")) {
+                                $(el).prop("for", $(el).prop("for").replace(id_regex, replacement));
+                            }
+                            if (el.id) {
+                                el.id = el.id.replace(id_regex, replacement);
+                            }
+                            if (el.name) {
+                                el.name = el.name.replace(id_regex, replacement);
+                            }
+                        };
+                        // Remove the parent form containing this button:
+                        $("#" + options_prefix + "-" + index).remove();
+                        nextIndex -= 1;
+
+                        // Update the TOTAL_FORMS form count.
+                        var forms = $("." + "dynamic-"+options_prefix);
+                        $("#id_" + options_prefix + "-TOTAL_FORMS").val(forms.length);
+                        // Show add button again once we drop below max
+                        if ((maxForms.val() == '') || (maxForms.val()-forms.length) > 0) {
+                            addButton.parent().show();
+                        }
+                        // Also, update names and ids for all remaining form controls
+                        // so they remain in sequence:
+                        for (var i=0, formCount=forms.length; i<formCount; i++) {
+                            updateElementIndex($(forms).get(i), options_prefix, i);
+                            $(forms.get(i)).find("*").each(function() {
+                                updateElementIndex(this, options_prefix, i);
+                            });
+                        }
+                        return false;
+                    }
+
+
+
+
+
+
+
+        (function($) {
+            $(document).ready(function() {
+                $('.add-another').click(function(e) {
+                    e.preventDefault();
+                    showAddAnotherPopup(this);
+                });
+            {% if adminform and add %}
+                $('form#{{ opts.model_name }}_form :input:visible:enabled:first').focus()
+            {% endif %}
+
+            {% if request.path != "/admin/auth/user" %}
+                $(".field-is_staff").hide();
+                $(".field-is_active").hide();
+            {% endif %}
+
+            });
+
+            // quitar coma decimal y separadores de miles antes del submit
+            $('form input[type=submit]').click(function(e) {
+                $('.auto').each(function (){
+                    $(this).val(($(this).val()!='')?unformat(document.getElementById(this.id.toString())):'');
+                });
+            });
+
+            // recargar el plugin de autonumeric al crear una nueva fila
+            $('.add-row').click(function() {
+                jQuery(function($) {
+                    $('.auto').autoNumeric('init');
+                });
+            });
+
+
+
+
+            // traer datos por AJAX
+            $("#id_tipo").change(function () {
+                var tipoderecurso = $(this).val();
+
+                if(tipoderecurso == null){
+                    var totalForms = $("#id_detalledelrecurso_set-TOTAL_FORMS").val();
+                    for(i = 0; i<totalForms; i++){
+                        deleteRow('detalledelrecurso_set', 0);
+                    }
+
+                }else{
+                    $.ajax({
+                        data : {'id_tipoderecurso': tipoderecurso.toString()},
+                        url : "/admin/recursos/get_caracteristicas_tipo_de_recurso",
+                        type: "get",
+                        success : function(data){
+                            var totalForms = $("#id_detalledelrecurso_set-TOTAL_FORMS").val();
+                            //addRow('detalledelrecurso_set');
+                            for(i = 0; i<totalForms; i++){
+                                deleteRow('detalledelrecurso_set', 0);
+                            }
+
+                            for(i=0; i< data.length; i++){
+                                addRow('detalledelrecurso_set');
+                                $('#id_detalledelrecurso_set-' + i + '-caracteristica').append('<option selected="selected" value="' + data[i].id+'">'+data[i].descripcion+'</option>')
+
+                            }
+
+                        }
+
+                    });
+
+                }
+            });
+
+
+
+
+
+
+
+        })(django.jQuery);
+    </script>
+{% endblock %}
+
+{# JavaScript for prepopulated fields #}
+{% prepopulated_fields_js %}
+
+</div>
+</form></div>
+{% endblock %}

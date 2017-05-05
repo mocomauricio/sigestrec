@@ -12,6 +12,9 @@ from sistema.forms import *
 
 from extra.globals import listview_to_excel
 
+from django.utils.decorators import method_decorator
+from django.contrib.admin.views.decorators import staff_member_required
+
 # Create your views here.
 class UsuarioCreateView(CreateView):
 	model = User
@@ -81,6 +84,10 @@ class UsuarioListView(ListView):
 		context['q'] = self.request.GET.get('q', '')
 		return context
 
+	@method_decorator(staff_member_required)
+	def dispatch(self, *args, **kwargs):
+		return super(UsuarioListView, self).dispatch(*args, **kwargs)
+
 class GrupoListView(ListView):
 	"""
 	View lista de grupos, sobreescribiendo la vista propia del admin
@@ -103,6 +110,11 @@ class GrupoListView(ListView):
 		context['q'] = self.request.GET.get('q', '')
 		return context
 
+	@method_decorator(staff_member_required)
+	def dispatch(self, *args, **kwargs):
+		return super(GrupoListView, self).dispatch(*args, **kwargs)
+
+@login_required
 def sistema_presentacion(request):
 	context = RequestContext(request)
 	titulo="SISTEMA"

@@ -29,10 +29,19 @@ class Recurso(models.Model):
     """
     Modelo que implementa la definicion de un recurso
     """
+    class Meta:
+        permissions = (
+            ("averiar_recurso", "Puede marcar como averiado un recurso"),
+            ("reparar_recurso", "Puede marcar como reparado un recurso"),
+        )
+
     codigo = models.CharField(max_length=100)
     nombre = models.CharField(max_length=100)
     tipo = models.ForeignKey("TipoDeRecurso")
     observaciones = models.TextField(max_length=1000, null=True, blank=True)
+    mantenimiento_preventivo = models.IntegerField(default=30, verbose_name="mantenimiento preventivo (dias)")
+    creado = models.DateTimeField(auto_now_add=True)
+    averiado = models.BooleanField(default=False, editable=False)
 
     def __unicode__(self):
         return unicode(self.nombre)

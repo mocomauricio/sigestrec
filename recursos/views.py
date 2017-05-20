@@ -71,7 +71,6 @@ class RecursoListView(ListView):
 
 	def render_to_response(self, context, **response_kwargs):
 		if 'excel' in self.request.GET.get('excel', ''): 
-			print "hola"
 			lista_datos=[]
 			datos = self.get_queryset()
 			for dato in datos:
@@ -107,3 +106,27 @@ def recursos_presentacion(request):
 	titulo="RECURSOS"
 	descripcion="."
 	return render_to_response('admin/presentacion.html', {'titulo':titulo,'descripcion':descripcion}, context)
+
+def marcar_como_averiado(request, pk):
+	context = RequestContext(request)
+	recurso = Recurso.objects.get(pk=pk)
+	if request.method == 'POST':
+		recurso.averiado = True
+		recurso.save()
+		return redirect('/admin/recursos/recurso')
+
+	mensaje = "Esta seguro que desea marcar como averiado el recurso " + recurso.nombre +"?" 
+
+	return render_to_response("admin/confirm.html", {'mensaje': mensaje, 'object':recurso,}, context)
+
+def marcar_como_reparado(request, pk):
+	context = RequestContext(request)
+	recurso = Recurso.objects.get(pk=pk)
+	if request.method == 'POST':
+		recurso.averiado = True
+		recurso.save()
+		return redirect('/admin/recursos/recurso')
+
+	mensaje = "Esta seguro que desea marcar como reparado el recurso " + recurso.nombre +"?" 
+
+	return render_to_response("admin/confirm.html", {'mensaje': mensaje, 'object':recurso,}, context)

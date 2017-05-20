@@ -88,7 +88,12 @@
             <tr>
                 <th>Codigo</th>
                 <th>Nombre</th>
-                <th>Tipo<th>
+                <th>Tipo</th>
+
+                <th>Fecha de creacion</th>
+                <th>Mantenimiento preventivo</th>
+
+                <th>Averiado?</th>
                 <th>Acciones</th>
 
             </tr>
@@ -101,6 +106,10 @@
                     <td>{{ recurso.nombre}}</td>
                     <td>{{ recurso.tipo}}</td>
 
+                    <td>{{ recurso.creado }}</td>
+                    <td>cada {{ recurso.mantenimiento_preventivo }} dias</td>
+
+                    <td> {% if recurso.averiado %} Si {% else %} No {% endif %} </td>
                     <td>
                         {% if perms.recursos.change_recurso %}
                             <button type="button" class="btn btn-warning btn-xs" onclick="location.href='/admin/recursos/recurso/{{ recurso.id }}/';" title="Editar">
@@ -111,6 +120,18 @@
                         {% if perms.recursos.delete_recurso %}
                             <button type="button" class="btn btn-danger btn-xs" onclick="location.href='/admin/recursos/recurso/{{ recurso.id }}/delete/';" title="Borrar">
                                 <i class="fa fa-minus"></i>
+                            </button>
+                        {% endif %}
+
+                        {% if perms.recursos.averiar_recurso and not recurso.averiado %}
+                            <button type="button" class="btn btn-default btn-xs" onclick="location.href='/admin/recursos/recurso/{{ recurso.id }}/averiar/';" title="Marcar como averiado">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        {% endif %}
+
+                        {% if perms.recursos.reparar_recurso and recurso.averiado %}
+                            <button type="button" class="btn btn-default btn-xs" onclick="location.href='/admin/recursos/recurso/{{ recurso.id }}/reparar/';" title="Marcar como reparado">
+                                <i class="fa fa-check"></i>
                             </button>
                         {% endif %}
 

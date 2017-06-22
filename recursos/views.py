@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
-
+from common.jasper import reportes
 class TipoDeRecursoListView(ListView):
 	"""
 	View lista de tipos de recurso, sobreescribiendo la vista propia del admin
@@ -136,3 +136,18 @@ def marcar_como_reparado(request, pk):
 	mensaje = "Esta seguro que desea marcar como reparado el recurso " + recurso.nombre +"?" 
 
 	return render_to_response("admin/confirm.html", {'mensaje': mensaje, 'object':recurso,}, context)
+
+
+
+#class Recursoreporteview(reporteView):
+
+#	View lista de recursos, sobreescribiendo la vista propia del admin
+
+#	model = Recurso
+#	template_name = "reporte_recursos.html"
+#	 def pdf_recurso(request, pk):
+#		obj = Recurso.objects.get(pk=pk)
+#		reporte = "reporteDeRecursos.jasper"
+##		response['Content-Disposition'] = 'attachment; filename="Recursos'
+##			"id": pk,}))
+#		return response"""

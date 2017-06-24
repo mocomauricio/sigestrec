@@ -148,6 +148,7 @@ def marcar_como_reparado(request, pk):
 #	 def pdf_recurso(request, pk):
 #		obj = Recurso.objects.get(pk=pk)
 #		reporte = "reporteDeRecursos.jasper"
+#        response = HttpResponse(content_type='application/pdf')
 ##		response['Content-Disposition'] = 'attachment; filename="Recursos'
 ##			"id": pk,}))
 #		return response"""

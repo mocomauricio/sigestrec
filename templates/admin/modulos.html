@@ -30,7 +30,7 @@
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-12 text-center">
-                                        <i class="fa fa-wrench fa-5x"></i>
+                                        <i class="fa fa-cubes fa-5x"></i>
                                     </div>
      
                                 </div>
@@ -44,7 +44,71 @@
                     </a>
                 </div>
                 {% endif %}
-                
+
+                {% if perms.mantenimientos %}
+                <div class="col-lg-3 col-md-6">
+                    <a href="/admin/mantenimientos">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-12 text-center">
+                                        <i class="fa fa-wrench fa-5x"></i>
+                                    </div>
+     
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">MANTENIMIENTOS</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endif %}                
+
+                {% if perms.reservas %}
+                <div class="col-lg-3 col-md-6">
+                    <a href="/admin/reservas">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-12 text-center">
+                                        <i class="fa fa-calendar fa-5x"></i>
+                                    </div>
+     
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">RESERVAS</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endif %}    
+
+                <div class="col-lg-3 col-md-6">
+                    <a href="/admin/publico">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-12 text-center">
+                                        <i class="fa fa-globe fa-5x"></i>
+                                    </div>
+     
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="pull-left">ESPACIO PUBLICO</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
 
             </div>
             <!-- /.row -->

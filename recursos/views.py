@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
-from common.jasper import reportes
+#from common.jasper import reportes
 class TipoDeRecursoListView(ListView):
 	"""
 	View lista de tipos de recurso, sobreescribiendo la vista propia del admin

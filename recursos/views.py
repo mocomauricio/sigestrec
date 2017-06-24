@@ -107,32 +107,3 @@ def recursos_presentacion(request):
 	descripcion="."
 	return render_to_response('admin/presentacion.html', {'titulo':titulo,'descripcion':descripcion}, context)
 
-def marcar_como_averiado(request, pk):
-	"""
-	Establecer el estado del recurso como averiado=True
-	"""
-	context = RequestContext(request)
-	recurso = Recurso.objects.get(pk=pk)
-	if request.method == 'POST':
-		recurso.averiado = True
-		recurso.save()
-		return redirect('/admin/recursos/recurso')
-
-	mensaje = "Esta seguro que desea marcar como averiado el recurso " + recurso.nombre +"?" 
-
-	return render_to_response("admin/confirm.html", {'mensaje': mensaje, 'object':recurso,}, context)
-
-def marcar_como_reparado(request, pk):
-	"""
-	Establecer el estado del recurso como averiado=False
-	"""
-	context = RequestContext(request)
-	recurso = Recurso.objects.get(pk=pk)
-	if request.method == 'POST':
-		recurso.averiado = True
-		recurso.save()
-		return redirect('/admin/recursos/recurso')
-
-	mensaje = "Esta seguro que desea marcar como reparado el recurso " + recurso.nombre +"?" 
-
-	return render_to_response("admin/confirm.html", {'mensaje': mensaje, 'object':recurso,}, context)

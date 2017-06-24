@@ -93,7 +93,7 @@
                 <th>Fecha de creacion</th>
                 <th>Mantenimiento preventivo</th>
 
-                <th>Averiado?</th>
+                <th>Estado</th>
                 <th>Acciones</th>
 
             </tr>
@@ -107,9 +107,9 @@
                     <td>{{ recurso.tipo}}</td>
 
                     <td>{{ recurso.creado }}</td>
-                    <td>cada {{ recurso.mantenimiento_preventivo }} dias</td>
+                    <td>{{ recurso.fecha_mantenimiento }}</td>
 
-                    <td> {% if recurso.averiado %} Si {% else %} No {% endif %} </td>
+                    <td>{{ recurso.get_estado_display }}</td>
                     <td>
                         {% if perms.recursos.change_recurso %}
                             <button type="button" class="btn btn-warning btn-xs" onclick="location.href='/admin/recursos/recurso/{{ recurso.id }}/';" title="Editar">
@@ -123,17 +123,7 @@
                             </button>
                         {% endif %}
 
-                        {% if perms.recursos.averiar_recurso and not recurso.averiado %}
-                            <button type="button" class="btn btn-default btn-xs" onclick="location.href='/admin/recursos/recurso/{{ recurso.id }}/averiar/';" title="Marcar como averiado">
-                                <i class="fa fa-times"></i>
-                            </button>
-                        {% endif %}
 
-                        {% if perms.recursos.reparar_recurso and recurso.averiado %}
-                            <button type="button" class="btn btn-default btn-xs" onclick="location.href='/admin/recursos/recurso/{{ recurso.id }}/reparar/';" title="Marcar como reparado">
-                                <i class="fa fa-check"></i>
-                            </button>
-                        {% endif %}
 
                         <!--
                         <button type="button" class="btn btn-info btn-xs" onclick="location.href='/admin/recursos/recurso/{{ recurso.id }}/detail/';" title="Detalle">

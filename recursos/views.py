@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
-from common.jasper import reportes
+#from common.jasper import reportes
 class TipoDeRecursoListView(ListView):
 	"""
 	View lista de tipos de recurso, sobreescribiendo la vista propia del admin
@@ -106,36 +106,6 @@ def recursos_presentacion(request):
 	titulo="RECURSOS"
 	descripcion="."
 	return render_to_response('admin/presentacion.html', {'titulo':titulo,'descripcion':descripcion}, context)
-
-def marcar_como_averiado(request, pk):
-	"""
-	Establecer el estado del recurso como averiado=True
-	"""
-	context = RequestContext(request)
-	recurso = Recurso.objects.get(pk=pk)
-	if request.method == 'POST':
-		recurso.averiado = True
-		recurso.save()
-		return redirect('/admin/recursos/recurso')
-
-	mensaje = "Esta seguro que desea marcar como averiado el recurso " + recurso.nombre +"?" 
-
-	return render_to_response("admin/confirm.html", {'mensaje': mensaje, 'object':recurso,}, context)
-
-def marcar_como_reparado(request, pk):
-	"""
-	Establecer el estado del recurso como averiado=False
-	"""
-	context = RequestContext(request)
-	recurso = Recurso.objects.get(pk=pk)
-	if request.method == 'POST':
-		recurso.averiado = True
-		recurso.save()
-		return redirect('/admin/recursos/recurso')
-
-	mensaje = "Esta seguro que desea marcar como reparado el recurso " + recurso.nombre +"?" 
-
-	return render_to_response("admin/confirm.html", {'mensaje': mensaje, 'object':recurso,}, context)
 
 
 

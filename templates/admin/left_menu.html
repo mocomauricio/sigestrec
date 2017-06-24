@@ -44,7 +44,12 @@
 	</li>
 	{% endif %}
 
-
+{% elif '/admin/reservas' in request.path %}
+	{% if perms.reservas.add_reserva or perms.reservas.change_reserva or perms.reservas.delete_reserva %}
+	<li>
+		<a href="/admin/reservas/reserva/">RESERVAS</span></a>
+	</li>
+	{% endif %}
 
 {% endif %}
 </ul>

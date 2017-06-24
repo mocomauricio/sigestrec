@@ -1,3 +1,8 @@
 from django.contrib import admin
+from django.contrib.admin.decorators import register
+from reservas.models import *
 
-# Register your models here.
+@register(Reserva)
+class ReservaAdmin(admin.ModelAdmin):
+	pass
+

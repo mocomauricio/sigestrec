@@ -7,6 +7,8 @@ from django.db.models import Q
 from django.contrib.auth.models import User, Group
 
 from recursos.models import *
+from mantenimientos.forms import *
+
 from extra.globals import listview_to_excel
 
 from django.http import Http404
@@ -15,13 +17,10 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.admin.views.decorators import staff_member_required
 
-
-def aprobar_mantenimiento_correctivo(request, pk):
-	"""
-	Establecer el estado del mantenimiento como activo=False
-	"""
+def aprobar_mantenimiento(request, pk):
 	context = RequestContext(request)
 	mantenimiento = Mantenimiento.objects.get(pk=pk)
+
 	if request.method == 'POST':
 		mantenimiento.activo = False
 		mantenimiento.save()
@@ -36,6 +35,9 @@ def aprobar_mantenimiento_correctivo(request, pk):
 
 	return render_to_response("admin/confirm.html", {'mensaje': mensaje, 'object':mantenimiento,}, context)
 
+
+
+
 class MantenimientoListView(ListView):
 	"""
 	View lista de mantenimientos, sobreescribiendo la vista propia del admin
@@ -44,7 +46,7 @@ class MantenimientoListView(ListView):
 	template_name = "mantenimiento_list.html"
 
 	def get_queryset(self):
-		mantenimientos = Mantenimiento.objects.filter(activo=True)
+		mantenimientos = Mantenimiento.objects.filter(activo=True).order_by('fecha')
 
 		q = self.request.GET.get('q', '')
 		if q != '':
@@ -63,7 +65,7 @@ class MantenimientoListView(ListView):
 			for dato in datos:
 				lista_datos.append([dato.recurso.nombre, dato.get_tipo_display(), dato.fecha.strftime("%Y/%m/%d")])
 
-			titulos=[ 'Recurso','tipo ', 'observaciones' ]
+			titulos=[ 'Recurso','tipo ', 'fecha de mantenimiento' ]
 			return listview_to_excel(lista_datos,'Mantenimientos',titulos)
 		
 		return super(MantenimientoListView, self).render_to_response(context, **response_kwargs)
@@ -79,6 +81,22 @@ class MantenimientoListView(ListView):
 	def dispatch(self, *args, **kwargs):
 		return super(MantenimientoListView, self).dispatch(*args, **kwargs)
 
+
+class MantenimientoAprobadoListView(MantenimientoListView):
+	template_name = "mantenimiento_aprobado_list.html"
+
+	def get_queryset(self):
+		mantenimientos = Mantenimiento.objects.filter(activo=False).order_by('fecha')
+
+		q = self.request.GET.get('q', '')
+		if q != '':
+			mantenimientos = mantenimientos.filter( Q(recurso__codigo__startswith=q) | Q(recurso__nombre__icontains=q) | Q(recurso__observaciones__icontains=q) )
+
+		tipodemantenimiento = self.request.GET.get('tipodemantenimiento', '')
+		if tipodemantenimiento != '':
+			mantenimientos = mantenimientos.filter(tipo=int(tipodemantenimiento))
+
+		return mantenimientos
 
 @login_required
 def mantenimientos_presentacion(request):

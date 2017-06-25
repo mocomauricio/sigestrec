@@ -33,7 +33,6 @@ class TipoDeRecursoListView(ListView):
 
 	def render_to_response(self, context, **response_kwargs):
 		if 'excel' in self.request.GET.get('excel', ''): 
-			print "hola"
 			lista_datos=[]
 			datos = self.get_queryset()
 			for dato in datos:
@@ -109,16 +108,3 @@ def recursos_presentacion(request):
 
 
 
-#class Recursoreporteview(reporteView):
-
-#	View lista de recursos, sobreescribiendo la vista propia del admin
-
-#	model = Recurso
-#	template_name = "reporte_recursos.html"
-#	 def pdf_recurso(request, pk):
-#		obj = Recurso.objects.get(pk=pk)
-#		reporte = "reporteDeRecursos.jasper"
-#        response = HttpResponse(content_type='application/pdf')
-##		response['Content-Disposition'] = 'attachment; filename="Recursos'
-##			"id": pk,}))
-#		return response"""

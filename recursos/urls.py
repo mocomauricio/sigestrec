@@ -19,6 +19,12 @@ urlpatterns = [
         name='encargadoderecurso-autocomplete',
     ),
 
+    url(
+        'recursoautocomplete/$',
+        RecursoAutocomplete.as_view(),
+        name='recurso-autocomplete',
+    ),
+
     # Ajax
     url('get_caracteristicas_tipo_de_recurso/$', get_caracteristicas_tipo_de_recurso),
 

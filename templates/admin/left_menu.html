@@ -40,8 +40,13 @@
 {% elif '/admin/mantenimientos' in request.path %}
 	{% if perms.mantenimientos.add_mantenimiento or perms.mantenimientos.change_mantenimiento or perms.mantenimientos.delete_mantenimiento %}
 	<li>
-		<a href="/admin/mantenimientos/mantenimiento/">MANTENIMIENTOS</span></a>
+		<a href="/admin/mantenimientos/mantenimiento/">PENDIENTES</span></a>
 	</li>
+
+	<li>
+		<a href="/admin/mantenimientos/mantenimientoaprobado/">PROCESADOS</span></a>
+	</li>
+
 	{% endif %}
 
 {% elif '/admin/reservas' in request.path %}

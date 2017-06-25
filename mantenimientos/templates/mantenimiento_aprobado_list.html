@@ -5,10 +5,9 @@
 {% load my_tags %}
 
 
-
 {% block content %}
     <form class="form" method="get">
-        <h1>Lista de Mantenimientos Pendientes</h1>
+        <h1>Lista de Mantenimientos Procesados</h1>
         <center>
             <dl>
                 <table class="table-filter table table-bordered table-stripped">
@@ -34,7 +33,7 @@
                         </td>
 
                         <th style="border-top :3px solid white; border-right :3px solid white; border-bottom :3px solid white;">
-                            <a class="btn btn-info" href="/admin/mantenimientos/mantenimiento" title="Limpiar Filtros">
+                            <a class="btn btn-info" href="/admin/mantenimientos/mantenimientoaprobado" title="Limpiar Filtros">
                                 <i class="fa fa-undo"></i>
                             </a>
                             <input type="submit" value="Buscar" class="btn btn-success" hidden="hidden" style="display: none">
@@ -51,11 +50,7 @@
                 <i class="fa fa-file-excel-o"></i>
             </button>
 
-            {% if perms.mantenimientos.add_mantenimiento %}
-                <button type="button" class="btn btn-primary" onclick="location.href='/admin/mantenimientos/mantenimiento/add/';" title="Agregar Mantenimiento">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-            {% endif %}
+
 
         </div>
     </form>
@@ -76,7 +71,6 @@
                 <th>Fecha de devolucion</th>
                 <th>Observaciones</th>
 
-                <th>Acciones</th>
 
             </tr>
             </thead>
@@ -94,35 +88,6 @@
                     <td>{{ mantenimiento.fecha_de_devolucion|default:"" }}</td>
                     <td>{{ mantenimiento.observaciones|default:"" }}</td>
 
-
-
-                    <td>
-                        {% if perms.mantenimientos.change_mantenimiento %}
-                            <button type="button" class="btn btn-warning btn-xs" onclick="location.href='/admin/mantenimientos/mantenimiento/{{ mantenimiento.id }}/';" title="Editar">
-                                <i class="fa fa-pencil"></i>
-                            </button>
-                        {% endif %}
-
-                        {% if perms.mantenimientos.delete_mantenimiento %}
-                            <button type="button" class="btn btn-danger btn-xs" onclick="location.href='/admin/mantenimientos/mantenimiento/{{ mantenimiento.id }}/delete/';" title="Borrar">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                        {% endif %}
-
-                        {% if perms.mantenimientos.aprobar_mantenimiento %}
-                            <button type="button" class="btn btn-success btn-xs" onclick="location.href='/admin/mantenimientos/mantenimiento/{{ mantenimiento.id }}/aprobar/';" title="Aprobar">
-                                <i class="fa fa-check"></i>
-                            </button>
-                        {% endif %}
-
-                        <!--
-                        <button type="button" class="btn btn-info btn-xs" onclick="location.href='/admin/mantenimientos/mantenimiento/{{ mantenimiento.id }}/detail/';" title="Detalle">
-                            <i class="fa fa-list-ol"></i>
-                        </button>
-                        -->
-
-
-                    </td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -136,13 +101,13 @@
                     <ul class="pagination pagination-sm">
                         {% if page_obj.has_previous %}
                             <li class="previous">
-                                <a href="/admin/mantenimientos/mantenimiento/?page={{ page_obj.previous_page_number }}&q={{ q }}&tipodemantenimiento={{ tipodemantenimiento }}">
+                                <a href="/admin/mantenimientos/mantenimientoaprobado/?page={{ page_obj.previous_page_number }}&q={{ q }}&tipodemantenimiento={{ tipodemantenimiento }}">
                                     <span aria-hidden="true">&larr;</span> Primera
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/admin/mantenimientos/mantenimiento/?page={{ page_obj.previous_page_number }}&q={{ q }}&tipodemantenimiento={{ tipodemantenimiento }}">
+                                <a href="/admin/mantenimientos/mantenimientoaprobado/?page={{ page_obj.previous_page_number }}&q={{ q }}&tipodemantenimiento={{ tipodemantenimiento }}">
                                     Anterior
                                 </a>
                             </li>
@@ -150,7 +115,7 @@
 
                         {% for page in page_obj.paginator.page_range|paginator_delimiter:page_obj.number %}
                             <li>
-                                <a {% if page == page_obj.number %} class="active" style="background-color:#DD4814;color:white;" {% endif %} href="/admin/mantenimientos/mantenimiento/?page={{ page }}&q={{ q }}&tipodemantenimiento={{ tipodemantenimiento }}">
+                                <a {% if page == page_obj.number %} class="active" style="background-color:#DD4814;color:white;" {% endif %} href="/admin/mantenimientos/mantenimientoaprobado/?page={{ page }}&q={{ q }}&tipodemantenimiento={{ tipodemantenimiento }}">
                                     {{ page }}
                                 </a>
                             </li>
@@ -158,13 +123,13 @@
 
                         {% if page_obj.has_next %}
                             <li>
-                                <a href="/admin/mantenimientos/mantenimiento/?page={{ page_obj.next_page_number }}&q={{ q }}&tipodemantenimiento={{ tipodemantenimiento }}">
+                                <a href="/admin/mantenimientos/mantenimientoaprobado/?page={{ page_obj.next_page_number }}&q={{ q }}&tipodemantenimiento={{ tipodemantenimiento }}">
                                     Siguiente
                                 </a>
                             </li>
 
                             <li class="next">
-                                <a href="/admin/mantenimientos/mantenimiento/?page={{ page_obj.paginator.num_pages}}&q={{ q }}&tipodemantenimiento={{ tipodemantenimiento }}">
+                                <a href="/admin/mantenimientos/mantenimientoaprobado/?page={{ page_obj.paginator.num_pages}}&q={{ q }}&tipodemantenimiento={{ tipodemantenimiento }}">
                                     &Uacute;ltima <span aria-hidden="true">&rarr;</span>
                                 </a>
                             </li>

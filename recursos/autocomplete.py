@@ -35,3 +35,15 @@ class EncargadoDeRecursoAutocomplete(autocomplete.Select2QuerySetView):
         return qs
 
 
+class RecursoAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        # Don't forget to filter out results depending on the visitor !
+        if not self.request.user.is_authenticated():
+            return Recurso.objects.none()
+
+        qs = Recurso.objects.exclude(estado=2)
+
+        if self.q:
+            qs = qs.filter( Q(codigo__startswith=q) | Q(nombre__icontains=q) | Q(observaciones__icontains=q) )
+
+        return qs

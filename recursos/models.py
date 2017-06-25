@@ -27,10 +27,12 @@ class TipoDeRecurso(models.Model):
 DISPONIBLE = 0
 RESERVADO = 1
 EN_MANTENIMIENTO = 2
+EN_USO = 3
 ESTADO_RECURSO = (
     (DISPONIBLE, 'disponible'),
     (RESERVADO, 'reservado'),
-    (EN_MANTENIMIENTO, 'en mantenimiento')
+    (EN_MANTENIMIENTO, 'en mantenimiento'),
+    (EN_USO, 'en uso')
 )
 
 class Recurso(models.Model):
@@ -42,23 +44,13 @@ class Recurso(models.Model):
     nombre = models.CharField(max_length=100)
     tipo = models.ForeignKey("TipoDeRecurso")
     observaciones = models.TextField(max_length=1000, null=True, blank=True)
-    fecha_mantenimiento = models.DateField(verbose_name="fecha del proximo manteniento preventivo")
+    mantenimiento_preventivo = models.IntegerField(default=0, verbose_name="Mantenimiento preventido (dias)")
     estado = models.IntegerField(default=DISPONIBLE, editable=False, choices=ESTADO_RECURSO)
     creado = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return unicode(self.nombre)
-    """
-    def save(self, *args, **kwargs):
-        super(Recurso, self).save(*args, **kwargs)
-        mantenimientos = Mantenimiento.objects.filter(recurso_id=self.pk, tipo=0, activo=True)
-        for manteniento in mantenimientos:
-            manteniento.activo=False
-            manteniento.save()
 
-        nuevo_mantenimiento = Mantenimiento(recurso_id=self.pk, tipo=0, fecha=self.fecha_mantenimiento, activo=True)
-        nuevo_mantenimiento.save()
-    """
 
 
 class DetalleDelRecurso(models.Model):

@@ -1,11 +1,24 @@
 from mantenimientos.models import *
-from datetime import * 
+from recursos.models import *
+from datetime import datetime, date, time, timedelta
+
 
 def enviar_recursos_mantenimiento_preventivo():
-	mantenimientos = Mantenimiento.objects.filter(activo=True, tipo=PREVENTIVO)
+	hoy = datetime.now().date()
+	recursos = Recurso.objects.exclude(mantenimiento_preventivo=0)
 
-	for mantenimiento in mantenimientos:
-		if mantenimiento.fecha <= date.today():
-			recurso = mantenimiento.recurso
-			recurso.estado = 2 # en mantenimiento
+	#solo necesario para exponer
+	recursos = recursos.exclude(pk__in=[i.recurso_id for i in Mantenimiento.objects.filter(activo=True, tipo=PREVENTIVO)])
+	
+	for recurso in recursos:
+		diferencia_fechas =  hoy - recurso.creado.date()
+		# si no se creo ahora mismo y si llego la cantidad de dias del mantenimiento preventivo
+		if((diferencia_fechas.days!=0) and (diferencia_fechas.days % recurso.mantenimiento_preventivo == 0)):
+			#se crea el mantenimiento preventivo
+			nuevo_mantenimiento = Mantenimiento(recurso_id=recurso.id, tipo=0, fecha=hoy, activo=True)
+			nuevo_mantenimiento.save()
+
+			#el recurso pasa a estado "en mantenimiento"
+			recurso.estado = 2 #en mantenimiento
 			recurso.save()
+

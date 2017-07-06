@@ -7,7 +7,7 @@ from sistema.ajax import *
 
 urlpatterns = [
 
-	url('usuarioautocomplete/$', 
+	url(r'^usuarioautocomplete/$', 
 		UsuarioAutocomplete.as_view(), 
 		name='usuario-autocomplete'
 	),

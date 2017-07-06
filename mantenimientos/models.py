@@ -25,5 +25,7 @@ class Mantenimiento(models.Model):
 	fecha = models.DateField(default=date.today, editable=False)
 	activo = models.BooleanField(default=True, editable=False)
 	
+
+
 	def __unicode__(self):
 		return unicode(self.recurso.nombre)

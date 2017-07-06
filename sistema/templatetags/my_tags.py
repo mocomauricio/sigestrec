@@ -32,3 +32,11 @@ def paginator_delimiter(last, current):
 @register.filter
 def separador_miles(numero):
     return separador_de_miles(numero)
+
+@register.filter('has_group')
+def has_group(user, group_name):
+    """
+    Verifica si el usuario pertence a un grupo
+    """
+    groups = user.groups.all().values_list('name', flat=True)
+    return True if group_name in groups else False

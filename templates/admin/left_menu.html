@@ -1,3 +1,7 @@
+{% load my_tags %}
+
+
+
 <ul class="nav" id="side-menu">
 	<li>
 		<a class="active" href="/admin/"><i class="fa fa-home fa-fw"></i> INICIO </a>
@@ -50,10 +54,19 @@
 	{% endif %}
 
 {% elif '/admin/reservas' in request.path %}
+
 	{% if perms.reservas.add_reserva or perms.reservas.change_reserva or perms.reservas.delete_reserva %}
 	<li>
 		<a href="/admin/reservas/reserva/">RESERVAS</span></a>
+	</li>	
+	{% endif %}
+
+
+	{% if perms.reservas.add_mireserva or perms.reservas.change_mireserva or perms.reservas.delete_mireserva %}
+	<li>
+		<a href="/admin/reservas/mireserva/">MIS RESERVAS</span></a>
 	</li>
+
 	{% endif %}
 
 {% endif %}

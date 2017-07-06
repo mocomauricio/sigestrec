@@ -41,7 +41,7 @@ class RecursoAutocomplete(autocomplete.Select2QuerySetView):
         if not self.request.user.is_authenticated():
             return Recurso.objects.none()
 
-        qs = Recurso.objects.exclude(estado=2)
+        qs = Recurso.objects.exclude(estado=2).exclude(borrado=True)
 
         if self.q:
             qs = qs.filter( Q(codigo__startswith=q) | Q(nombre__icontains=q) | Q(observaciones__icontains=q) )

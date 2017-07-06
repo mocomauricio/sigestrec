@@ -224,7 +224,7 @@
                             </button>
                         {% endif %}
 
-                        {% if not reserva.cancelado %}
+                        {% if not reserva.cancelado and not reserva.entregado and not reserva.devuelto %}
                         {% if perms.reservas.delete_reserva or perms.reservas.cancelar_reserva %}
                             <button type="button" class="btn btn-danger btn-xs" onclick="location.href='/admin/reservas/reserva/{{ reserva.id }}/cancelar/';" title="Cancelar">
                                 <i class="fa fa-minus"></i>

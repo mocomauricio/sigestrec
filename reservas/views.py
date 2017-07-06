@@ -73,6 +73,7 @@ def recibir_recurso(request, pk):
 	if request.method == 'POST':
 		reserva.devuelto = True
 		reserva.fecha_hora_devolucion = datetime.now()
+		reserva.activo=False
 		reserva.save()
 
 		recurso = reserva.recurso
@@ -94,6 +95,7 @@ def cancelar_reserva(request, pk):
 		reserva.activo = False
 		reserva.cancelado = True
 		reserva.fecha_hora_cancelacion = datetime.now()
+		reserva.activo=False
 		reserva.save()
 
 		recurso = reserva.recurso
@@ -117,6 +119,7 @@ def cancelar_mireserva(request, pk):
 		reserva.activo = False
 		reserva.cancelado = True
 		reserva.fecha_hora_cancelacion = datetime.now()
+		reserva.activo=False
 		reserva.save()
 
 		recurso = reserva.recurso

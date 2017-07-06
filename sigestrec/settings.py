@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'recursos',
     'mantenimientos',
     'reservas',
+    'publico',
 
 )
 

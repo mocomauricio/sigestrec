@@ -12,5 +12,7 @@ urlpatterns = [
     url(r'^admin/auth/', include('sistema.urls')),
     url(r'^admin/sistema/', include('sistema.urls')),
 	url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^publico/', include('publico.urls')),
+
     url(r'^admin/', include(admin.site.urls)),
 ]

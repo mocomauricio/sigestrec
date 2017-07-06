@@ -66,6 +66,10 @@ class RecursoListView(ListView):
 		if q != '':
 			recursos = recursos.filter( Q(codigo__startswith=q) | Q(nombre__icontains=q) | Q(observaciones__icontains=q) )
 
+		tipoderecurso_id = self.request.GET.get('tipoderecurso_id', '')
+		if tipoderecurso_id != '':
+			recursos = recursos.filter(tipo_id=tipoderecurso_id)
+
 		return recursos
 
 	def render_to_response(self, context, **response_kwargs):

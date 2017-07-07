@@ -48,10 +48,12 @@ class Recurso(models.Model):
     estado = models.IntegerField(default=DISPONIBLE, editable=False, choices=ESTADO_RECURSO)
     creado = models.DateTimeField(auto_now_add=True)
     borrado = models.BooleanField(default=False, editable=False)
+
     def __unicode__(self):
         return unicode(self.nombre)
 
-
+    def get_adjudicado(self):
+        pass
 
 class DetalleDelRecurso(models.Model):
     recurso = models.ForeignKey(Recurso)

@@ -3,6 +3,9 @@ from django.contrib.admin.decorators import register
 from mantenimientos.forms import *
 from mantenimientos.models import Mantenimiento
 
+from reservas.models import Reserva
+from datetime import datetime, date, time, timedelta
+
 # Register your models here.
 
 @register(Mantenimiento)
@@ -17,6 +20,14 @@ class MantenimientoAdmin(admin.ModelAdmin):
 			recurso = obj.recurso
 			recurso.estado = 2 #mantenimiento
 			recurso.save()
+
+			#todas las reservas activas del recurso dado deben ser canceladas
+			reservas = Reserva.objects.filter(recurso_id=recurso.pk, activo=True)
+			for reserva in reservas:
+				reserva.cancelado = True
+				reserva.fecha_hora_cancelacion = datetime.now()
+				reserva.activo = False
+				reserva.save()
 
 		super(MantenimientoAdmin, self).save_model(request, obj, form, change)
 

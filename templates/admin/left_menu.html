@@ -4,7 +4,11 @@
 
 <ul class="nav" id="side-menu">
 	<li>
+		{% if user.is_authenticated %}
 		<a class="active" href="/admin/"><i class="fa fa-home fa-fw"></i> INICIO </a>
+		{% else%}
+		<a class="active" href="/publico/"><i class="fa fa-home fa-fw"></i> INICIO </a>
+		{% endif %}
 	</li>                      
 
 {% if '/admin/auth' in request.path or '/admin/sistema' in request.path  %}
@@ -68,6 +72,17 @@
 	</li>
 
 	{% endif %}
+
+
+{% elif '/publico' in request.path %}
+
+	<li>
+		<a href="/publico/recurso/">RECURSOS</span></a>
+	</li>
+
+	<li>
+		<a href="/publico/reserva/">RESERVAS</span></a>
+	</li>
 
 {% endif %}
 </ul>

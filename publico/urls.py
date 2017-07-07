@@ -9,9 +9,11 @@ urlpatterns = [
 
     # Views
 
-    #url(r'^recurso/(?P<pk>\d+)/detail/$', RecursoDetailView.as_view(), name='recurso_det'),
-    url(r'^recurso/$', RecursoPublicoListView.as_view(), name='recurso_lis'),
+    url(r'^recurso/(?P<pk>\d+)/detail/$', RecursoPublicoDetailView.as_view(), name='recurso_det'),
+    url(r'^recurso/$', RecursoPublicoListView.as_view(), name='recurso_publico_lis'),
+    url(r'^reserva/$', ReservaPublicoListView.as_view(), name='reserva_publico_lis'),
 
+    url(r'^$', publico_presentacion),
 
 
 ]

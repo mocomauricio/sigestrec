@@ -6,6 +6,9 @@ urlpatterns = [
     # url(r'^$', 'sigestrec.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
+    url(r'^$', 'sigestrec.views.home', name='home'),
+
+
     url(r'^admin/reservas/', include('reservas.urls')),
     url(r'^admin/recursos/', include('recursos.urls')),
     url(r'^admin/mantenimientos/', include('mantenimientos.urls')),

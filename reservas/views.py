@@ -92,7 +92,6 @@ def cancelar_reserva(request, pk):
 	reserva = Reserva.objects.get(pk=pk)
 
 	if request.method == 'POST':
-		reserva.activo = False
 		reserva.cancelado = True
 		reserva.fecha_hora_cancelacion = datetime.now()
 		reserva.activo=False
@@ -116,7 +115,6 @@ def cancelar_mireserva(request, pk):
 	reserva = Reserva.objects.get(pk=pk)
 
 	if request.method == 'POST':
-		reserva.activo = False
 		reserva.cancelado = True
 		reserva.fecha_hora_cancelacion = datetime.now()
 		reserva.activo=False

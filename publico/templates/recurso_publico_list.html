@@ -53,7 +53,7 @@
                         </td>
 
                         <th style="border-top :3px solid white; border-right :3px solid white; border-bottom :3px solid white;">
-                            <a class="btn btn-info" href="/admin/recurso" title="Limpiar Filtros">
+                            <a class="btn btn-info" href="/publico/recurso" title="Limpiar Filtros">
                                 <i class="fa fa-undo"></i>
                             </a>
                             <input type="submit" value="Buscar" class="btn btn-success" hidden="hidden" style="display: none">
@@ -89,7 +89,7 @@
 
                 <th>Reservado para</th>
 
-                <th>Acciones</th>
+                <th>Caracteristicas</th>
 
             </tr>
             </thead>
@@ -107,7 +107,7 @@
                     <td>{{ recurso.get_adjudicado }}</td>
                     <td>
 
-                        <button type="button" class="btn btn-info btn-xs" onclick="location.href='/admin/recurso/{{ recurso.id }}/detail/';" title="Detalle">
+                        <button type="button" class="btn btn-info btn-xs" onclick="location.href='/publico/recurso/{{ recurso.id }}/detail/';" title="Caracteristicas">
                             <i class="fa fa-list-ol"></i>
                         </button>
 
@@ -125,13 +125,13 @@
                     <ul class="pagination pagination-sm">
                         {% if page_obj.has_previous %}
                             <li class="previous">
-                                <a href="/admin/recurso/?page={{ page_obj.previous_page_number }}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}">
+                                <a href="/publico/recurso/?page={{ page_obj.previous_page_number }}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}">
                                     <span aria-hidden="true">&larr;</span> Primera
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/admin/recurso/?page={{ page_obj.previous_page_number }}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}">
+                                <a href="/publico/recurso/?page={{ page_obj.previous_page_number }}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}">
                                     Anterior
                                 </a>
                             </li>
@@ -139,7 +139,7 @@
 
                         {% for page in page_obj.paginator.page_range|paginator_delimiter:page_obj.number %}
                             <li>
-                                <a {% if page == page_obj.number %} class="active" style="background-color:#DD4814;color:white;" {% endif %} href="/admin/recurso/?page={{ page }}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}">
+                                <a {% if page == page_obj.number %} class="active" style="background-color:#DD4814;color:white;" {% endif %} href="/publico/recurso/?page={{ page }}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}">
                                     {{ page }}
                                 </a>
                             </li>
@@ -147,13 +147,13 @@
 
                         {% if page_obj.has_next %}
                             <li>
-                                <a href="/admin/recurso/?page={{ page_obj.next_page_number }}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}">
+                                <a href="/publico/recurso/?page={{ page_obj.next_page_number }}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}">
                                     Siguiente
                                 </a>
                             </li>
 
                             <li class="next">
-                                <a href="/admin/recurso/?page={{ page_obj.paginator.num_pages}}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}">
+                                <a href="/publico/recurso/?page={{ page_obj.paginator.num_pages}}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}">
                                     &Uacute;ltima <span aria-hidden="true">&rarr;</span>
                                 </a>
                             </li>

@@ -143,7 +143,7 @@
 
 
                         <th style="border-top :3px solid white; border-right :3px solid white; border-bottom :3px solid white;">
-                            <a class="btn btn-info" href="/admin/reservas/reserva" title="Limpiar Filtros">
+                            <a class="btn btn-info" href="/publico/reserva" title="Limpiar Filtros">
                                 <i class="fa fa-undo"></i>
                             </a>
                             <input type="submit" value="Buscar" class="btn btn-success" hidden="hidden" style="display: none">
@@ -161,7 +161,7 @@
             </button>
 
             {% if perms.reservas.add_reserva %}
-                <button type="button" class="btn btn-primary" onclick="location.href='/admin/reservas/reserva/add/';" title="Agregar Reserva">
+                <button type="button" class="btn btn-primary" onclick="location.href='/publico/reserva/add/';" title="Agregar Reserva">
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>
             {% endif %}
@@ -193,7 +193,6 @@
                 <th>Activo</th>
 
 
-                <th>Acciones</th>
 
             </tr>
             </thead>
@@ -207,7 +206,6 @@
 
                     <td>{{ reserva.fecha }} ({{ reserva.hora_inicio }} a {{ reserva.hora_fin }}) </td>
 
-
                     <td>{{ reserva.fecha_hora_entrega|default_if_none:"&nbsp;" }}</td>
                     <td>{{ reserva.fecha_hora_devolucion|default_if_none:"&nbsp;" }}</td>
                     <td>{{ reserva.fecha_hora_cancelacion|default_if_none:"&nbsp;" }}</td>
@@ -216,52 +214,7 @@
 
 
                     <td>{{ reserva.get_activo_display }}</td>
-                    <td>
-                        {% if reserva.activo and not reserva.cancelado %}
-                        {% if perms.reservas.change_reserva %}
-                            <button type="button" class="btn btn-warning btn-xs" onclick="location.href='/admin/reservas/reserva/{{ reserva.id }}/';" title="Editar">
-                                <i class="fa fa-pencil"></i>
-                            </button>
-                        {% endif %}
 
-                        {% if not reserva.cancelado and not reserva.entregado and not reserva.devuelto %}
-                        {% if perms.reservas.delete_reserva or perms.reservas.cancelar_reserva %}
-                            <button type="button" class="btn btn-danger btn-xs" onclick="location.href='/admin/reservas/reserva/{{ reserva.id }}/cancelar/';" title="Cancelar">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                        {% endif %}
-                        {% endif %}
-
-
-
-                        {% if not reserva.entregado %}
-                        {% if perms.reservas.entregar_recurso %}
-                            <button type="button" class="btn btn-default btn-xs" onclick="location.href='/admin/reservas/reserva/{{ reserva.id }}/entregar/';" title="Entregar recurso">
-                                <i class="fa fa-share"></i>
-                            </button>
-                        {% endif %}
-                        {% endif %}
-
-
-                        {% if not reserva.devuelto and reserva.entregado %}
-                        {% if perms.reservas.recibir_recurso %}
-                            <button type="button" class="btn btn-default btn-xs" onclick="location.href='/admin/reservas/reserva/{{ reserva.id }}/recibir/';" title="Recibir recurso">
-                                <i class="fa fa-reply"></i>
-                            </button>
-                        {% endif %}
-                        {% endif %}
-
-
-                        {% endif %}
-
-                        <!--
-                        <button type="button" class="btn btn-info btn-xs" onclick="location.href='/admin/reservas/reserva/{{ reserva.id }}/detail/';" title="Detalle">
-                            <i class="fa fa-list-ol"></i>
-                        </button>
-                        -->
-
-
-                    </td>
                 </tr>
             {% endfor %}
             </tbody>
@@ -275,13 +228,13 @@
                     <ul class="pagination pagination-sm">
                         {% if page_obj.has_previous %}
                             <li class="previous">
-                                <a href="/admin/reservas/reserva/?page={{ page_obj.previous_page_number }}&tipoderecurso_id={{ tipoderecurso_id }}&recurso_id={{ recurso_id }}&solicitante_id={{ solicitante_id }}&activo={{ activo }}&cancelado={{ cancelado }}&entregado={{ entregado }}&devuelto={{ devuelto }}">
+                                <a href="/publico/reserva/?page={{ page_obj.previous_page_number }}&tipoderecurso_id={{ tipoderecurso_id }}&recurso_id={{ recurso_id }}&solicitante_id={{ solicitante_id }}&activo={{ activo }}&cancelado={{ cancelado }}&entregado={{ entregado }}&devuelto={{ devuelto }}">
                                     <span aria-hidden="true">&larr;</span> Primera
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/admin/reservas/reserva/?page={{ page_obj.previous_page_number }}&tipoderecurso_id={{ tipoderecurso_id }}&recurso_id={{ recurso_id }}&solicitante_id={{ solicitante_id }}&activo={{ activo }}&cancelado={{ cancelado }}&entregado={{ entregado }}&devuelto={{ devuelto }}">
+                                <a href="/publico/reserva/?page={{ page_obj.previous_page_number }}&tipoderecurso_id={{ tipoderecurso_id }}&recurso_id={{ recurso_id }}&solicitante_id={{ solicitante_id }}&activo={{ activo }}&cancelado={{ cancelado }}&entregado={{ entregado }}&devuelto={{ devuelto }}">
                                     Anterior
                                 </a>
                             </li>
@@ -289,7 +242,7 @@
 
                         {% for page in page_obj.paginator.page_range|paginator_delimiter:page_obj.number %}
                             <li>
-                                <a {% if page == page_obj.number %} class="active" style="background-color:#DD4814;color:white;" {% endif %} href="/admin/reservas/reserva/?page={{ page }}&tipoderecurso_id={{ tipoderecurso_id }}&recurso_id={{ recurso_id }}&solicitante_id={{ solicitante_id }}&activo={{ activo }}&cancelado={{ cancelado }}&entregado={{ entregado }}&devuelto={{ devuelto }}">
+                                <a {% if page == page_obj.number %} class="active" style="background-color:#DD4814;color:white;" {% endif %} href="/publico/reserva/?page={{ page }}&tipoderecurso_id={{ tipoderecurso_id }}&recurso_id={{ recurso_id }}&solicitante_id={{ solicitante_id }}&activo={{ activo }}&cancelado={{ cancelado }}&entregado={{ entregado }}&devuelto={{ devuelto }}">
                                     {{ page }}
                                 </a>
                             </li>
@@ -297,13 +250,13 @@
 
                         {% if page_obj.has_next %}
                             <li>
-                                <a href="/admin/reservas/reserva/?page={{ page_obj.next_page_number }}&tipoderecurso_id={{ tipoderecurso_id }}&recurso_id={{ recurso_id }}&solicitante_id={{ solicitante_id }}&activo={{ activo }}&cancelado={{ cancelado }}&entregado={{ entregado }}&devuelto={{ devuelto }}">
+                                <a href="/publico/reserva/?page={{ page_obj.next_page_number }}&tipoderecurso_id={{ tipoderecurso_id }}&recurso_id={{ recurso_id }}&solicitante_id={{ solicitante_id }}&activo={{ activo }}&cancelado={{ cancelado }}&entregado={{ entregado }}&devuelto={{ devuelto }}">
                                     Siguiente
                                 </a>
                             </li>
 
                             <li class="next">
-                                <a href="/admin/reservas/reserva/?page={{ page_obj.paginator.num_pages}}&tipoderecurso_id={{ tipoderecurso_id }}&recurso_id={{ recurso_id }}&solicitante_id={{ solicitante_id }}&activo={{ activo }}&cancelado={{ cancelado }}&entregado={{ entregado }}&devuelto={{ devuelto }}">
+                                <a href="/publico/reserva/?page={{ page_obj.paginator.num_pages}}&tipoderecurso_id={{ tipoderecurso_id }}&recurso_id={{ recurso_id }}&solicitante_id={{ solicitante_id }}&activo={{ activo }}&cancelado={{ cancelado }}&entregado={{ entregado }}&devuelto={{ devuelto }}">
                                     &Uacute;ltima <span aria-hidden="true">&rarr;</span>
                                 </a>
                             </li>

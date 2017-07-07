@@ -1,5 +1,6 @@
 from mantenimientos.models import *
 from recursos.models import *
+from reservas.models import Reserva
 from datetime import datetime, date, time, timedelta
 
 
@@ -22,3 +23,10 @@ def enviar_recursos_mantenimiento_preventivo():
 			recurso.estado = 2 #en mantenimiento
 			recurso.save()
 
+			#todas las reservas activas del recurso dado deben ser canceladas
+			reservas = Reserva.objects.filter(recurso_id=recurso.pk, activo=True)
+			for reserva in reservas:
+				reserva.cancelado = True
+				reserva.fecha_hora_cancelacion = datetime.now()
+				reserva.activo = False
+				reserva.save()

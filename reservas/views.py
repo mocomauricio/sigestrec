@@ -189,19 +189,29 @@ class ReservaListView(ListView):
 
 		return reservas.order_by('-fecha', 'hora_inicio', 'grado_prioridad_solicitante')
 
-	"""
+
 	def render_to_response(self, context, **response_kwargs):
 		if 'excel' in self.request.GET.get('excel', ''): 
 			lista_datos=[]
 			datos = self.get_queryset()
 			for dato in datos:
-				lista_datos.append([dato.codigo, dato.nombre, dato.observaciones])
+				lista_datos.append([
+					dato.recurso.codigo,
+					dato.recurso.nombre,
+					dato.recurso.tipo.nombre,
+					dato.recurso.tipo.encargado.get_full_name(),
+					dato.recurso.get_estado_display(),
+					dato.fecha.strftime("%d/%m/%Y"),
+					dato.solicitante.get_full_name(),
+					dato.get_activo_display()
 
-			titulos=[ 'Codigo','Nombre', 'observaciones' ]
+				])
+
+			titulos=[ 'Codigo','Recurso', 'Tipo de recurso', 'Encargado', 'Estado del recurso', 'fecha reserva', 'Solicitante', 'Activo' ]
 			return listview_to_excel(lista_datos,'Reservas',titulos)
 		
 		return super(ReservaListView, self).render_to_response(context, **response_kwargs)
-	"""
+
 
 	def get_context_data(self, **kwargs):
 		context = super(ReservaListView, self).get_context_data(**kwargs)

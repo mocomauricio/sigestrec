@@ -23,9 +23,10 @@ from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime	
 
 def get_estado_recurso(recurso):
-	if(Reserva.objects.filter(recurso_id=recurso.id, activo=True)==[]):
-		return 0 #disponible
-	return 1 #reservado
+	reservas = Reserva.objects.filter(recurso_id = recurso.id, activo = True)
+	if(reservas.count() > 0):
+		return 1 #disponible
+	return 0 #reservado
 
 def entregar_recurso(request, pk):
 	context = RequestContext(request)

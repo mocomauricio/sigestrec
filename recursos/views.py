@@ -70,6 +70,20 @@ class RecursoListView(ListView):
 		if tipoderecurso_id != '':
 			recursos = recursos.filter(tipo_id=tipoderecurso_id)
 
+		encargado_id = self.request.GET.get('encargado_id', '')
+		if encargado_id != '':
+			recursos = recursos.filter(tipo__encargado_id=encargado_id)
+
+		estado = self.request.GET.get('estado', 'TODOS')
+		if estado == 'DISPONIBLE':
+			recursos = recursos.filter(estado=0)
+		elif estado == 'MANTENIMIENTO':
+			recursos = recursos.filter(estado=1)
+		elif estado == 'RESERVADO':
+			recursos = recursos.filter(estado=2)
+		elif estado == 'EN_USO':
+			recursos = recursos.filter(estado=3)
+
 		return recursos
 
 	def render_to_response(self, context, **response_kwargs):
@@ -77,9 +91,9 @@ class RecursoListView(ListView):
 			lista_datos=[]
 			datos = self.get_queryset()
 			for dato in datos:
-				lista_datos.append([dato.codigo, dato.nombre, dato.observaciones])
+				lista_datos.append([dato.codigo, dato.nombre, dato.tipo.nombre, dato.tipo.encargado.get_full_name(), dato.get_estado_display()])
 
-			titulos=[ 'Codigo','Nombre', 'observaciones' ]
+			titulos=[ 'Codigo','Nombre', 'Tipo','Encargado','Estado' ]
 			return listview_to_excel(lista_datos,'Recursos',titulos)
 		
 		return super(RecursoListView, self).render_to_response(context, **response_kwargs)
@@ -89,6 +103,12 @@ class RecursoListView(ListView):
 		context['q'] = self.request.GET.get('q', '')
 		context['tiposderecurso'] = TipoDeRecurso.objects.all()
 		context['tipoderecurso_id'] = int(self.request.GET.get('tipoderecurso_id','')) if (self.request.GET.get('tipoderecurso_id','') != '') else ''
+
+		context['encargados'] = User.objects.filter(groups__name='Encargado de recursos')
+		context['encargado_id'] = int(self.request.GET.get('encargado_id', '')) if (self.request.GET.get('encargado_id', '') != '') else ''
+
+		context['estado'] = self.request.GET.get('estado', 'TODOS')
+
 		return context
 		
 	@method_decorator(staff_member_required)

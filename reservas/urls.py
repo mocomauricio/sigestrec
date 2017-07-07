@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from reservas.autocomplete import *
 from reservas.views import *
+from reservas.reports import *
 
 from django.contrib.auth.decorators import permission_required
 
@@ -33,6 +34,8 @@ urlpatterns = [
     url(r'^reserva/(?P<pk>\d+)/cancelar/$', permission_required('reservas.cancelar_reserva')(cancelar_reserva), name='cancelar_reserva'),
     url(r'^reserva/(?P<pk>\d+)/delete/$', permission_required('reservas.cancelar_reserva')(cancelar_reserva), name='cancelar_reserva'),
 
+    url(r'^reserva/(?P<pk>\d+)/print_entrega/$', permission_required('reservas.imprimir_comprobante')(reporte_entrega_recurso), name='reporte_entrega_recurso'),
+    url(r'^reserva/(?P<pk>\d+)/print_devolucion/$', permission_required('reservas.imprimir_comprobante')(reporte_devolucion_recurso), name='reporte_devolucion_recurso'),
 
     url(r'^$', reservas_presentacion),
 

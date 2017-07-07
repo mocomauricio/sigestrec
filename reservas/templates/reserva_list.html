@@ -91,9 +91,6 @@
                             </select>
                         </td>
 
-
-
-
                         <th style="vertical-align:middle">
                             <strong> Devuelto:</strong>
                         </th>
@@ -176,6 +173,7 @@
         <table id="result_list" class="table table-striped table-filter">
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Solicitante</th>
                 <th>Tipo de Recurso</th>
                 <th>Recurso</th>
@@ -201,6 +199,7 @@
             <tbody>
             {% for reserva in object_list %}
                 <tr>
+                    <td>{{ reserva.id }}</td>
                     <td>{{ reserva.solicitante }}</td>
                     <td>{{ reserva.tipo_recurso }}</td>
                     <td>{{ reserva.recurso|default_if_none:"&nbsp;" }}</td>
@@ -252,6 +251,19 @@
                         {% endif %}
 
 
+                        {% endif %}
+
+
+                        {% if reserva.entregado %}
+                            <button type="button" class="btn btn-danger btn-xs" onclick="location.href='/admin/reservas/reserva/{{ reserva.id }}/print_entrega/';" title="Comprobante de entrega">
+                                <i class="fa fa-file-pdf-o"></i>
+                            </button>
+                        {% endif %}
+
+                        {% if reserva.devuelto %}
+                            <button type="button" class="btn btn-danger btn-xs" onclick="location.href='/admin/reservas/reserva/{{ reserva.id }}/print_devolucion/';" title="Comprobante de devolucion">
+                                <i class="fa fa-file-pdf-o"></i>
+                            </button>
                         {% endif %}
 
                         <!--

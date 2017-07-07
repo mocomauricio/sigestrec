@@ -52,6 +52,40 @@
                             </select>
                         </td>
 
+                    </tr>
+                    <tr>
+                        <th style="vertical-align:middle">
+                            <strong> Encargado:</strong>
+                        </th>
+                        <td style="vertical-align:middle">
+                            <select class="chosen-select" data-placeholder="Seleccione un tipo de recurso.." name="encargado_id" value="{{ encargado_id }}" onchange="this.form.submit();">
+                                <option value=""></option>
+                                {% for encargado in encargados %}
+                                    <option {% if encargado.pk == encargado_id %} selected {% endif %} value="{{ encargado.id }}">{{ encargado }}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+
+
+
+                        <th style="vertical-align:middle">
+                            <strong> Estado:</strong>
+                        </th>
+                        <td style="vertical-align:middle">
+                            <select name="estado" value="{{ estado }}" onchange="this.form.submit();">
+
+                                <option {% if 'TODOS' in estado %} selected {% endif %} value="TODOS">----------</option>
+                                <option {% if 'DISPONIBLE' in estado %} selected {% endif %} value="DISPONIBLE">DISPONIBLE</option>
+                                <option {% if 'RESERVADO' in estado %} selected {% endif %} value="RESERVADO">RESERVADO</option>
+                                <option {% if 'MANTENIMIENTO' in entregado %} selected {% endif %} value="MANTENIMIENTO">MANTENIMIENTO</option>
+                                <option {% if 'EN_USO' in entregado %} selected {% endif %} value="EN_USO">EN USO</option>
+                            </select>
+                        </td>
+
+
+
+
+
                         <th style="border-top :3px solid white; border-right :3px solid white; border-bottom :3px solid white;">
                             <a class="btn btn-info" href="/admin/recursos/recurso" title="Limpiar Filtros">
                                 <i class="fa fa-undo"></i>
@@ -90,6 +124,8 @@
                 <th>Nombre</th>
                 <th>Tipo</th>
 
+                <th>Encargado</th>
+
                 <th>Fecha de creacion</th>
                 <th>Mantenimiento preventivo (dias)</th>
 
@@ -105,6 +141,7 @@
                     <td>{{ recurso.codigo }}</td>
                     <td>{{ recurso.nombre}}</td>
                     <td>{{ recurso.tipo}}</td>
+                    <td>{{ recurso.tipo.encargado }}</td>
 
                     <td>{{ recurso.creado }}</td>
                     <td>{{ recurso.mantenimiento_preventivo }}</td>
@@ -146,13 +183,13 @@
                     <ul class="pagination pagination-sm">
                         {% if page_obj.has_previous %}
                             <li class="previous">
-                                <a href="/admin/recursos/recurso/?page={{ page_obj.previous_page_number }}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}">
+                                <a href="/admin/recursos/recurso/?page={{ page_obj.previous_page_number }}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}&encargado_id={{ encargado_id }}&estado={{ estado }}">
                                     <span aria-hidden="true">&larr;</span> Primera
                                 </a>
                             </li>
 
                             <li>
-                                <a href="/admin/recursos/recurso/?page={{ page_obj.previous_page_number }}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}">
+                                <a href="/admin/recursos/recurso/?page={{ page_obj.previous_page_number }}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}&encargado_id={{ encargado_id }}&estado={{ estado }}">
                                     Anterior
                                 </a>
                             </li>
@@ -160,7 +197,7 @@
 
                         {% for page in page_obj.paginator.page_range|paginator_delimiter:page_obj.number %}
                             <li>
-                                <a {% if page == page_obj.number %} class="active" style="background-color:#DD4814;color:white;" {% endif %} href="/admin/recursos/recurso/?page={{ page }}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}">
+                                <a {% if page == page_obj.number %} class="active" style="background-color:#DD4814;color:white;" {% endif %} href="/admin/recursos/recurso/?page={{ page }}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}&encargado_id={{ encargado_id }}&estado={{ estado }}">
                                     {{ page }}
                                 </a>
                             </li>
@@ -168,13 +205,13 @@
 
                         {% if page_obj.has_next %}
                             <li>
-                                <a href="/admin/recursos/recurso/?page={{ page_obj.next_page_number }}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}">
+                                <a href="/admin/recursos/recurso/?page={{ page_obj.next_page_number }}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}&encargado_id={{ encargado_id }}&estado={{ estado }}">
                                     Siguiente
                                 </a>
                             </li>
 
                             <li class="next">
-                                <a href="/admin/recursos/recurso/?page={{ page_obj.paginator.num_pages}}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}">
+                                <a href="/admin/recursos/recurso/?page={{ page_obj.paginator.num_pages}}&q={{ q }}&tipoderecurso_id={{ tipoderecurso_id }}&encargado_id={{ encargado_id }}&estado={{ estado }}">
                                     &Uacute;ltima <span aria-hidden="true">&rarr;</span>
                                 </a>
                             </li>

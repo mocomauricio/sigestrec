@@ -1,6 +1,7 @@
 from django.db import models
 from mantenimientos.models import *
 from django.contrib.auth.models import User
+from reservas.models import *
 
 # Create your models here.
 class Caracteristica(models.Model):
@@ -53,7 +54,13 @@ class Recurso(models.Model):
         return unicode(self.nombre)
 
     def get_adjudicado(self):
-        pass
+        las_reservas = Reserva.objects.filter(recurso_id=self.id, activo=True).order_by('-fecha', 'hora_inicio', 'grado_prioridad_solicitante')
+        print las_reservas
+        if las_reservas.count() > 0:
+            una_reserva = las_reservas[0]
+            return una_reserva.solicitante
+        return None
+
 
 class DetalleDelRecurso(models.Model):
     recurso = models.ForeignKey(Recurso)

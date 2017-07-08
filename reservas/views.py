@@ -22,6 +22,13 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 from datetime import datetime	
 
+
+from django.core.mail import EmailMessage
+
+def enviar_notificacion(asunto, mensaje, destinatario):
+	email = EmailMessage(asunto, mensaje, to=[destinatario.email])
+	email.send()
+
 def get_estado_recurso(recurso):
 	reservas = Reserva.objects.filter(recurso_id = recurso.id, activo = True)
 	if(reservas.count() > 0):
@@ -110,6 +117,12 @@ def cancelar_reserva(request, pk):
 			recurso.estado = get_estado_recurso(recurso) # disponible o reservado
 			recurso.save()
 
+		enviar_notificacion(
+			asunto="Cancelacion de reserva",
+			mensaje="Su reserva del recurso " + reserva.recurso.nombre + " fue cancelada",
+			destinatario=reserva.solicitante
+		)
+
 		return redirect('/admin/reservas/reserva')
 
 	mensaje = "Esta seguro que desea cancelar la reserva?" 
@@ -132,6 +145,12 @@ def cancelar_mireserva(request, pk):
 		if recurso != None:
 			recurso.estado = get_estado_recurso(recurso) # disponible o reservado
 			recurso.save()
+
+		enviar_notificacion(
+			asunto="Cancelacion de reserva",
+			mensaje="Usted cancelo su reserva del recurso " + reserva.recurso.nombre,
+			destinatario=reserva.solicitante
+		)
 
 		return redirect('/admin/reservas/mireserva')
 

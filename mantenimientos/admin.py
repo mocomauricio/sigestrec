@@ -8,6 +8,12 @@ from datetime import datetime, date, time, timedelta
 
 # Register your models here.
 
+from django.core.mail import EmailMessage
+
+def enviar_notificacion(asunto, mensaje, destinatario):
+	email = EmailMessage(asunto, mensaje, to=[destinatario.email])
+	email.send()
+
 @register(Mantenimiento)
 class MantenimientoAdmin(admin.ModelAdmin):
 	form = MantenimientoForm
@@ -28,6 +34,13 @@ class MantenimientoAdmin(admin.ModelAdmin):
 				reserva.fecha_hora_cancelacion = datetime.now()
 				reserva.activo = False
 				reserva.save()
+
+
+				enviar_notificacion(
+					asunto="Cancelacion de reserva",
+					mensaje="Usted cancelo su reserva del recurso " + reserva.recurso.nombre,
+					destinatario=reserva.solicitante
+				)
 
 		super(MantenimientoAdmin, self).save_model(request, obj, form, change)
 

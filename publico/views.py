@@ -8,6 +8,7 @@ from django.contrib.auth.models import User, Group
 
 from recursos.models import *
 from reservas.models import *
+from mantenimientos.models import *
 from extra.globals import listview_to_excel
 
 from django.http import Http404
@@ -151,6 +152,28 @@ class RecursoPublicoDetailView(DetailView):
 	def get_context_data(self, **kwargs):
 		context = super(RecursoPublicoDetailView, self).get_context_data(**kwargs)
 		context['detalles'] = DetalleDelRecurso.objects.filter(recurso=self.object)
+		return context
+
+
+class ColaRecursoPublicoDetailView(DetailView):
+	model = Recurso
+	template_name = "cola_recurso_publico_detail.html"
+
+	def get_context_data(self, **kwargs):
+		context = super(ColaRecursoPublicoDetailView, self).get_context_data(**kwargs)
+		context['reservas'] = Reserva.objects.filter(recurso=self.object, activo=True).order_by('-fecha', 'hora_inicio', 'grado_prioridad_solicitante')
+
+		return context
+
+class EstadisticasRecursoPublicoDetailView(DetailView):
+	model = Recurso
+	template_name = "estadisticas_recurso_publico_detail.html"
+
+	def get_context_data(self, **kwargs):
+		context = super(EstadisticasRecursoPublicoDetailView, self).get_context_data(**kwargs)
+		context['numero_reservas'] = Reserva.objects.filter(recurso=self.object).count()
+		context['numero_mantenimientos'] = Mantenimiento.objects.filter(recurso=self.object).count()
+
 		return context
 
 def publico_presentacion(request):

@@ -20,7 +20,7 @@ class TipoDeRecurso(models.Model):
     """
     nombre = models.CharField(max_length=100)
     encargado = models.ForeignKey(User, null=True, blank=False, verbose_name="Encargado del recurso")
-    caracteristicas = models.ManyToManyField(Caracteristica)
+    caracteristicas = models.ManyToManyField(Caracteristica, null=True, blank=True)
 
     def __unicode__(self):
         return unicode(self.nombre)
@@ -41,7 +41,7 @@ class Recurso(models.Model):
     Modelo que implementa la definicion de un recurso
     """
 
-    codigo = models.CharField(max_length=100)
+    codigo = models.CharField(max_length=100, unique=True)
     nombre = models.CharField(max_length=100)
     tipo = models.ForeignKey("TipoDeRecurso")
     observaciones = models.TextField(max_length=1000, null=True, blank=True)

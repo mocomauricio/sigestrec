@@ -10,6 +10,12 @@ urlpatterns = [
     # Views
 
     url(r'^recurso/(?P<pk>\d+)/detail/$', RecursoPublicoDetailView.as_view(), name='recurso_det'),
+
+    url(r'^recurso/(?P<pk>\d+)/cola/$', ColaRecursoPublicoDetailView.as_view(), name='cola_recurso_det'),
+
+    url(r'^recurso/(?P<pk>\d+)/estadistica/$', EstadisticasRecursoPublicoDetailView.as_view(), name='estadisticas_recurso_det'),
+
+
     url(r'^recurso/$', RecursoPublicoListView.as_view(), name='recurso_publico_lis'),
     url(r'^reserva/$', ReservaPublicoListView.as_view(), name='reserva_publico_lis'),
 

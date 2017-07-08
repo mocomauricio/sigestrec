@@ -140,6 +140,6 @@ CRONJOBS = [
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'mocomauricio@gmail.com'
-EMAIL_HOST_PASSWORD = '***'
+EMAIL_HOST_USER = 'sigestrec@gmail.com'
+EMAIL_HOST_PASSWORD = 'sigestrec123'
 EMAIL_PORT = 587

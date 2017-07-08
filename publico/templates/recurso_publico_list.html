@@ -65,11 +65,11 @@
         </center>
 
         <div id="next_button" align="right">
-
+        <!--
             <button onclick="this.form.submit();" class="btn btn-success" name="excel" value="excel" type="submit" title="Exportar a Excel">
                 <i class="fa fa-file-excel-o"></i>
             </button>
-
+        -->
 
         </div>
     </form>
@@ -89,7 +89,7 @@
 
                 <th>Reservado para</th>
 
-                <th>Caracteristicas</th>
+                <th>Detalles</th>
 
             </tr>
             </thead>
@@ -108,7 +108,15 @@
                     <td>
 
                         <button type="button" class="btn btn-info btn-xs" onclick="location.href='/publico/recurso/{{ recurso.id }}/detail/';" title="Caracteristicas">
+                            <i class="fa fa-info"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-warning btn-xs" onclick="location.href='/publico/recurso/{{ recurso.id }}/cola/';" title="Cola de solicitudes">
                             <i class="fa fa-list-ol"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-success btn-xs" onclick="location.href='/publico/recurso/{{ recurso.id }}/estadistica/';" title="Estadisticas">
+                            <i class="fa fa-barcode"></i>
                         </button>
 
                     </td>

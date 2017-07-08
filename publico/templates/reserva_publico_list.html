@@ -156,15 +156,9 @@
 
         <div id="next_button" align="right">
 
-            <button onclick="this.form.submit();" class="btn btn-success" name="excel" value="excel" type="submit" title="Exportar a Excel">
-                <i class="fa fa-file-excel-o"></i>
-            </button>
 
-            {% if perms.reservas.add_reserva %}
-                <button type="button" class="btn btn-primary" onclick="location.href='/publico/reserva/add/';" title="Agregar Reserva">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-            {% endif %}
+
+
 
         </div>
     </form>

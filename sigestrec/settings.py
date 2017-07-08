@@ -135,3 +135,11 @@ MEDIA_URL="/media/"
 CRONJOBS = [
     ('*/5 * * * *', 'mantenimientos.cron.enviar_recursos_mantenimiento_preventivo'),
 ]
+
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'mocomauricio@gmail.com'
+EMAIL_HOST_PASSWORD = '***'
+EMAIL_PORT = 587

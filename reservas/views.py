@@ -59,6 +59,13 @@ def entregar_recurso_especifico(request, pk):
 		recurso.estado = 3 #en uso
 		recurso.save()
 
+		reservas = Reserva.objects.filter(recurso_id=recurso.id, hora_inicio__lte=reserva.hora_fin, fecha=reserva.fecha).exclude(id=reserva.id)
+		for una_reserva in reservas:
+			una_reserva.activo=False
+			una_reserva.cancelado=True
+			una_reserva.fecha_hora_cancelacion = datetime.now()
+			una_reserva.save()
+
 		return redirect('/admin/reservas/reserva')
 
 	mensaje = "Esta seguro que desea entragar el recurso?" 
